@@ -110,8 +110,9 @@ meses e devolve um número que não descreve nenhuma das duas. As faixas mostram
 à direita; a média é puxada pela cauda e descreve um caso que quase não acontece. Mas a mediana só
 enxerga ações que fecharam, e as que mais demoram são justamente as que ainda não fecharam: no
 cenário base isso é forte a ponto de aparecer categoria "entregando antes do prometido" numa
-carteira que cumpre menos da metade dos prazos. Por isso existe a coluna `mediana_com_pendentes`,
-que conta cada pendência pelo tempo já decorrido e serve de limite inferior honesto.
+carteira que cumpre metade dos prazos. Por isso existe a coluna `mediana_com_pendentes`, que conta
+cada pendência pelo tempo já decorrido. As duas são pisos e nenhuma domina a outra — a aba manda
+prometer pela maior delas, e diz que a verdade está acima de ambas.
 
 **Ação nasce em reunião.** A base de acompanhamentos é gerada antes da base de ações, e uma ação
 só pode ser aberta em uma semana em que houve reunião. Cliente com agenda irregular gera menos

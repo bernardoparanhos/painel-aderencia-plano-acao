@@ -12,9 +12,9 @@ meses — leia um número deste projeto como algo que ele não é.
 Toda a base é gerada por código a partir do `config.yaml`. Não há dado de cliente, não há
 apontamento real, não há empresa por trás de nenhum dos 26 nomes fictícios.
 
-**Não se pode dizer:** "a aderência média de uma carteira de consultoria é 48%".
+**Não se pode dizer:** "a aderência média de uma carteira de consultoria é 50%".
 **Pode-se dizer:** "com estas premissas de prazo prometido e de tempo real de execução, a aderência
-resultante é 48% — e o painel mostra onde isso dói."
+resultante é 50% — e o painel mostra onde isso dói."
 
 O projeto demonstra o **método de medição**, não um diagnóstico de mercado.
 
@@ -48,15 +48,20 @@ A tese do projeto é sobre **medição**, não sobre resultado.
 
 A mediana de lead time é calculada sobre ações concluídas. As ações que nunca fecharam — que são
 justamente as mais lentas — ficam de fora, e o número sai otimista por construção. No cenário base,
-isso é forte a ponto de a mediana aparecer **abaixo** do prazo prometido numa carteira que cumpre
-menos da metade dos prazos.
+isso é forte a ponto de a mediana aparecer **abaixo** do prazo prometido em quase toda categoria,
+numa carteira que cumpre metade dos prazos.
 
 A coluna `mediana_com_pendentes` corrige parcialmente, contando cada pendência pelo tempo já
-decorrido. Como esse tempo ainda vai crescer, ela é um **limite inferior** da verdade, não a
-verdade. O lead time real é pior que os dois números.
+decorrido. Como esse tempo ainda vai crescer, ela é um **limite inferior** da verdade.
 
-Fazer isso direito exigiria análise de sobrevivência (Kaplan-Meier), que está fora do escopo desta
-versão e é honesto dizer que está.
+As duas são pisos, e nenhuma domina a outra: quando a categoria tem muita pendência recente, o
+tempo já decorrido dessas pendências é curto e puxa a segunda mediana para baixo da primeira — é o
+que acontece com Pessoas no cenário base, 23 dias contra 24,5. Por isso a aba manda prometer pela
+maior das duas. O lead time real está acima de ambas.
+
+A correção rigorosa é análise de sobrevivência (Kaplan-Meier), que trata a pendência como
+observação censurada em vez de convertê-la em um número. Está fora do escopo desta versão, e é
+honesto dizer que está.
 
 ## 5. O score de risco é relativo, e só serve para ordenar
 

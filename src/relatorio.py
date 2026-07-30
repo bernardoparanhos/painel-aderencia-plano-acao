@@ -792,10 +792,12 @@ def montar_lead_time(ws: Worksheet, df: pd.DataFrame) -> None:
             "diferenca_mediana_menos_prometido": "Diferença vs. prometido",
         },
         formatos={
-            "p25": "0", "mediana": "0", "p75": "0", "maximo": "0",
-            "amplitude_p25_p75": "0", "mediana_com_pendentes": "0",
-            "prazo_tipico_prometido": "0",
-            "diferenca_mediana_menos_prometido": "+0;−0;0",
+            # uma casa decimal: mediana de contagem par cai no meio, e arredondar
+            # para inteiro faria a subtração exibida não fechar com as parcelas
+            "p25": "0.0", "mediana": "0.0", "p75": "0.0", "maximo": "0",
+            "amplitude_p25_p75": "0.0", "mediana_com_pendentes": "0.0",
+            "prazo_tipico_prometido": "0.0",
+            "diferenca_mediana_menos_prometido": "+0.0;−0.0;0.0",
         },
         larguras={"categoria": 18},
         banda=False,
@@ -815,12 +817,12 @@ def montar_lead_time(ws: Worksheet, df: pd.DataFrame) -> None:
     _nota(
         ws,
         ultima + 2,
-        "Leia as duas medianas juntas. A primeira só enxerga ações que fecharam — e as que "
-        "mais demoram são justamente as que ainda não fecharam, então ela é otimista por "
-        "construção, a ponto de mostrar categoria entregando antes do prometido numa carteira "
-        "com aderência de menos de metade. A mediana incluindo pendentes conta cada pendência "
-        "pelo tempo já decorrido: como esse tempo ainda vai crescer, é um limite inferior da "
-        "verdade. Prometa prazo por ela, não pela primeira.",
+        "Leia as duas medianas juntas, e prometa prazo pela MAIOR delas. A primeira só "
+        "enxerga ações que fecharam — e as que mais demoram são justamente as que ainda não "
+        "fecharam, então ela é otimista por construção. A segunda conta cada pendência pelo "
+        "tempo já decorrido, que ainda vai crescer: é um piso garantido, mas fica baixa quando "
+        "a categoria tem muita pendência recente. Nenhuma das duas é o número verdadeiro; as "
+        "duas são pisos, e o verdadeiro está acima de ambas.",
         largura=10,
     )
 

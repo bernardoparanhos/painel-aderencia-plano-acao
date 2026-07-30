@@ -242,14 +242,19 @@ def main() -> int:
 
 
 def _acoes_nascem_em_reuniao(tabelas: dict) -> bool:
-    """A ação é aberta na terça da semana de referência de uma reunião que aconteceu."""
+    """A ação é aberta no dia de reunião de uma semana em que houve reunião.
+
+    O dia varia por cliente, então a conferência é feita pela semana: a data de
+    abertura é levada de volta à segunda-feira dela e comparada com a agenda.
+    """
     semanas_com_reuniao = {
         (linha["cliente_id"], linha["semana_referencia"])
         for _, linha in tabelas["acompanhamentos"].iterrows()
         if linha["houve_reuniao"]
     }
     for _, acao in tabelas["acoes"].iterrows():
-        semana = acao["data_abertura"] - dt.timedelta(days=1)
+        abertura = acao["data_abertura"]
+        semana = abertura - dt.timedelta(days=abertura.weekday())
         if (acao["cliente_id"], semana) not in semanas_com_reuniao:
             return False
     return True

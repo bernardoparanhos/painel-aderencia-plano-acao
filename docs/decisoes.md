@@ -159,11 +159,11 @@ Três divergências apareceram durante a construção e foram resolvidas assim:
 
 **Ações com prazo original vencido mas ainda em aberto.** A primeira versão excluía essas ações do
 denominador da aderência, contando só as já concluídas. Isso inflava o indicador em cerca de sete
-pontos — 56% em vez de 48%, no cenário base. Uma ação vencida e em aberto já descumpriu, e omiti-la
+pontos — 57% em vez de 50%, no cenário base. Uma ação vencida e em aberto já descumpriu, e omiti-la
 é adiar a má notícia até a semana em que ela fecha. Corrigido: o denominador é "prazo original
 vencido", independente de status.
 
-**Lead time mostrando categoria entregando antes do prometido.** Numa carteira com 48% de
+**Lead time mostrando categoria entregando antes do prometido.** Numa carteira com 50% de
 aderência, a tabela de lead time apontava mediana abaixo do prazo prometido em quase toda
 categoria. Não era erro de conta: é viés de sobrevivência, porque a mediana só enxerga ações que
 fecharam, e as que mais demoram são exatamente as que ainda não fecharam. Como o número, sozinho,

@@ -242,9 +242,17 @@ def lead_time_por_categoria(base: pd.DataFrame) -> pd.DataFrame:
         .median()
     )
     agg["prazo_tipico_prometido"] = prazos
+
+    # Mediana de um número par de observações cai no meio: 19,5 dias é resultado
+    # legítimo. Guardar 19,5 e exibir "20" faria a planilha mostrar 20 − 21 = −2,
+    # que é aritmética errada na cara de quem lê. Uma casa decimal em todas as
+    # colunas de dias resolve, e as contas fecham exatamente como aparecem.
+    colunas_dias = ["p25", "mediana", "p75", "mediana_com_pendentes", "prazo_tipico_prometido"]
+    agg[colunas_dias] = agg[colunas_dias].round(1)
+    agg["amplitude_p25_p75"] = (agg["p75"] - agg["p25"]).round(1)
     agg["diferenca_mediana_menos_prometido"] = (
         agg["mediana_com_pendentes"] - agg["prazo_tipico_prometido"]
-    )
+    ).round(1)
 
     ordem = [
         "acoes_concluidas", "p25", "mediana", "p75", "maximo", "amplitude_p25_p75",

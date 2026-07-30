@@ -176,6 +176,14 @@ def gerar_perfis(cfg: dict, clientes: pd.DataFrame, rng: np.random.Generator) ->
     irregulares = rng.random(n) < ac["fracao_clientes_irregulares"]
     replanejadores = rng.random(n) < ex["fracao_clientes_replanejadores"]
 
+    # Cada cliente tem seu dia fixo de reunião na semana, de segunda a sexta.
+    #
+    # Não é enfeite: com a reunião de todo mundo caindo no mesmo dia, o tempo em
+    # aberto de toda pendência vira múltiplo de 7 mais uma constante, e o aging
+    # passa a existir só em degraus — a faixa 0–7 com média exata de 3,0 dias,
+    # a de 8–15 com exata de 10,0. Coerente, e obviamente artificial.
+    dia_reuniao = rng.integers(0, 5, size=n)
+
     return pd.DataFrame(
         {
             "cliente_id": clientes["cliente_id"].to_numpy(),
@@ -184,6 +192,7 @@ def gerar_perfis(cfg: dict, clientes: pd.DataFrame, rng: np.random.Generator) ->
                 irregulares, ac["prob_reuniao_irregular"], ac["prob_reuniao_regular"]
             ),
             "replanejador": replanejadores,
+            "dia_reuniao": dia_reuniao,
         }
     ).set_index("cliente_id")
 
@@ -255,8 +264,10 @@ def gerar_acoes(
             c = cats[categoria]
             responsavel = _sorteia_de_dict(rng, par["responsaveis"])
 
-            # a ação é aberta na reunião; a reunião cai na terça da semana de referência
-            abertura = reuniao["semana_referencia"] + dt.timedelta(days=1)
+            # a ação é aberta na reunião, e cada cliente tem seu dia fixo na semana
+            abertura = reuniao["semana_referencia"] + dt.timedelta(
+                days=int(perfis.loc[cid, "dia_reuniao"])
+            )
             prazo_original = abertura + dt.timedelta(days=int(c["prazo_prometido"]))
 
             # duração real de execução: lognormal com mediana ajustada por cliente e responsável
