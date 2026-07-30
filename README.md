@@ -34,9 +34,9 @@ Esta é a seção mais importante do arquivo. Regra que governa a lista: **indic
 |---|---|---|
 | **Aderência ao prazo** | ações concluídas até o prazo **original** ÷ ações com prazo original vencido no período | O acompanhamento está funcionando ou só registrando? |
 | **Aging de pendências** | dias em aberto, em faixas: 0–7, 8–15, 16–30, +30 | Onde intervir primeiro. Pendência de +30 dias não é atraso, é ação abandonada |
-| **Taxa de replanejamento** | ações com ao menos uma reprogramação ÷ total de ações | O prazo está sendo mal estimado na origem ou a execução está travando? |
+| **Taxa de replanejamento** | ações com ao menos uma reprogramação ÷ ações não canceladas | O prazo está sendo mal estimado na origem ou a execução está travando? |
 | **Lead time de conclusão** | mediana de dias entre abertura e conclusão, por categoria | Quanto tempo prometer na próxima reunião, com base em histórico |
-| **Cobertura de acompanhamento** | clientes com atualização registrada na semana ÷ total da carteira | Sem cobertura, todos os indicadores acima perdem representatividade |
+| **Cobertura de acompanhamento** | clientes com reunião registrada na semana ÷ clientes ativos na semana | Sem cobertura, todos os indicadores acima perdem representatividade |
 | **Ranking de risco por cliente** | composição de pendências vencidas, aging médio e replanejamento | Ordem de prioridade da agenda da semana |
 
 A **cobertura** é o indicador que mede o próprio processo de medição. Ela existe porque número
@@ -173,4 +173,13 @@ O relatório é reproduzível: a semente é fixa, e a mesma semente devolve exat
 
 ---
 
-Projeto autoral de **Bernardo Paranhos**.
+## Licença
+
+[MIT](LICENSE). Use, adapte e leve para onde quiser — inclusive comercialmente. A única exigência
+é manter o aviso de copyright, ou seja, o crédito.
+
+Os dados são sintéticos e gerados por código: não há nada aqui sob sigilo de terceiros.
+
+---
+
+Projeto autoral de **Bernardo Paranhos**, 2026.
