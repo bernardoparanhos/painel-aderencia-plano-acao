@@ -1,0 +1,24 @@
+# Gerado a cada execução: sai do zero com `python src/main.py`.
+# A cópia que precisa estar versionada é exemplos/relatorio_exemplo.xlsx, e essa vai.
+saida/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Ferramentas locais e configuração de máquina — não fazem parte do projeto
+.claude/
+.vscode/
+.idea/
+
+# Arquivos temporários do Excel enquanto a planilha está aberta
+~$*.xlsx
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini

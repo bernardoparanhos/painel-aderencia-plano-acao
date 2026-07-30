@@ -1,0 +1,95 @@
+# Parâmetros de cenário do painel de aderência.
+#
+# Este arquivo é a interface do projeto. Mudar um número aqui e rodar de novo é o que
+# transforma o relatório em ferramenta de decisão: dá para ver o indicador reagir.
+# Nenhum destes valores está repetido no código — se estiver, é bug.
+
+cenario:
+  nome: Carteira base
+  semente: 42                  # semente fixa: mesma semente, mesmo relatório, sempre
+  n_clientes: 26               # tamanho da carteira
+  horizonte_semanas: 26        # janela simulada, em semanas
+  data_corte: 2026-07-24       # último dia do período; a leitura é feita como se fosse hoje
+
+carteira:
+  segmentos: [Indústria, Varejo, Serviços, Agronegócio, Construção, Saúde]
+  portes:
+    Pequeno: 0.40
+    Médio: 0.40
+    Grande: 0.20
+  consultores: [A. Ribeiro, C. Menezes, F. Aguiar, L. Tavares, R. Sampaio]
+  # fração da carteira que entra depois do início do horizonte (cliente novo não tem histórico)
+  fracao_entrada_tardia: 0.20
+
+acompanhamento:
+  # probabilidade de haver reunião em uma semana, para o cliente de rotina regular
+  prob_reuniao_regular: 0.90
+  # fração da carteira com agenda irregular, e a probabilidade que se aplica a ela
+  fracao_clientes_irregulares: 0.25
+  prob_reuniao_irregular: 0.45
+
+acoes:
+  # média de ações abertas por reunião, multiplicada pelo fator de porte abaixo
+  media_acoes_por_reuniao: 1.6
+  fator_porte:
+    Pequeno: 0.7
+    Médio: 1.0
+    Grande: 1.5
+  prioridades:
+    Alta: 0.25
+    Média: 0.50
+    Baixa: 0.25
+  responsaveis:
+    Cliente: 0.65
+    Consultoria: 0.35
+  # ação sob responsabilidade do cliente demora mais: a consultoria controla a própria agenda
+  fator_execucao_responsavel:
+    Cliente: 1.15
+    Consultoria: 0.85
+  fracao_canceladas: 0.05      # decisão registrada de tirar a ação da pauta
+  fracao_abandonadas: 0.07     # abertas, nunca concluídas, nunca canceladas: o pior caso
+
+# Uma linha por categoria de ação.
+#   prazo_prometido : dias que a equipe promete na reunião de abertura
+#   lead_time_base  : mediana real de execução, em dias (o que de fato acontece)
+#   dispersao       : sigma da lognormal; quanto maior, mais longa a cauda de estouro
+# A diferença entre prazo_prometido e lead_time_base é o otimismo estrutural da reunião,
+# e é ele que faz a aderência não ser 100%.
+categorias:
+  Processo:    {peso: 0.30, prazo_prometido: 21, lead_time_base: 23, dispersao: 0.62}
+  Indicador:   {peso: 0.20, prazo_prometido: 21, lead_time_base: 20, dispersao: 0.55}
+  Comercial:   {peso: 0.20, prazo_prometido: 14, lead_time_base: 12, dispersao: 0.45}
+  Financeiro:  {peso: 0.18, prazo_prometido: 14, lead_time_base: 15, dispersao: 0.50}
+  Pessoas:     {peso: 0.12, prazo_prometido: 30, lead_time_base: 32, dispersao: 0.70}
+
+execucao:
+  # dispersão da disciplina entre clientes: sigma da lognormal que multiplica o lead time.
+  # 0 deixaria todos os clientes iguais e o ranking de risco perderia sentido.
+  variabilidade_entre_clientes: 0.34
+  # replanejamento concentrado: só esta fração da carteira reprograma com frequência
+  fracao_clientes_replanejadores: 0.20
+  passo_replanejamento_dias: [7, 21]   # quanto se empurra o prazo a cada reprogramação
+  fator_passo_replanejador: 0.5        # replanejador empurra em passos menores, logo mais vezes
+  max_reprogramacoes: 6
+  max_reprogramacoes_abandonada: 1     # ação abandonada some da pauta, nem chega a ser remarcada
+
+risco:
+  # pesos do score de risco por cliente. Somam 1. Estão aqui para serem discutidos.
+  peso_vencidas: 0.45
+  peso_aging: 0.35
+  peso_replanejamento: 0.20
+  limite_critico: 70
+  limite_atencao: 40
+
+leitura:
+  # faixas usadas nos rótulos do painel
+  aderencia_saudavel: 0.70
+  aderencia_critica: 0.50
+  cobertura_minima: 0.70       # abaixo disso, o Resumo escreve a ressalva junto do número
+
+saida:
+  pasta: saida
+  arquivo_excel: painel_aderencia.xlsx
+  exportar_csv: true
+  gerar_prints: true
+  pasta_prints: exemplos/prints
